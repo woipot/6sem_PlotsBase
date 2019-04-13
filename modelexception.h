@@ -1,0 +1,4 @@
+#ifndef MODELEXCEPTION_H
+#define MODELEXCEPTION_H
+
+#endif // MODELEXCEPTION_H
