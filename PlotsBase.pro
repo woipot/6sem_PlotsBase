@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui \
+    printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,10 +27,18 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    qplot/qcustomplot.cpp \
+    adapter.cpp \
+    model.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    qplot/qcustomplot.h \
+    adapter.h \
+    model.h \
+    modelexception.h \
+    colorgetter.h
 
 FORMS += \
         mainwindow.ui
