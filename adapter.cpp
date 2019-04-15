@@ -21,6 +21,9 @@ void Adapter::set_main_qgraph(QCustomPlot *main_graph)
     main_graph_->legend->setVisible(true);
     main_graph_->legend->setBrush(QBrush(QColor(255,255,255,230)));
     set_axis_colored(true);
+    main_graph_->setSelectionTolerance(10);
+
+    connect(main_graph_, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseMove(QMouseEvent*)));
     main_graph_->replot();
 }
 
@@ -173,6 +176,9 @@ void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
         graph->setData(x_list, y_list);
         graph->setPen(QPen(color_getter_.get_nextColor()));
         graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
+
+        graph->setSelectable(QCP::stSingleData);
+
         main_graph_->replot();
     }
 }
@@ -186,4 +192,47 @@ QVector<QCPGraph*> Adapter::get_plots()
     }
 
     return res;
+}
+
+
+void Adapter::mouseMove(QMouseEvent* mev)
+{
+    if(! QApplication::mouseButtons()) return;
+    if(main_graph_->selectedGraphs().size() != 1) return;
+
+    double  x = main_graph_->xAxis->pixelToCoord(mev->pos().x()),
+            y = main_graph_->yAxis->pixelToCoord(mev->pos().y());
+
+
+    //QCPGraph::pointDistance ( const QPointF &  pixelPoint, QCPGraphDataContainer::const_iterator &  closestData  )
+        //QPointF point = mev->pos();
+        //QCPGraphDataContainer::const_iterator it;
+        //ui->customPlot->graph()->pointDistance(point, it);
+            // --- protected
+
+    auto graph = main_graph_->selectedGraphs().first();
+    int index = graph->selection().dataRange().begin();
+
+    if(index!=0){
+        double min=main_graph_->xAxis->pixelToCoord(
+                        main_graph_->xAxis->coordToPixel(
+                            (graph->data()->begin() + (index-1))->key)
+                        +5);
+        if(x<min)x=min;
+    }
+    if(index != graph->data()->size()-1){
+        double max=main_graph_->xAxis->pixelToCoord(
+                        main_graph_->xAxis->coordToPixel(
+                            (graph->data()->begin() + (index+1))->key)
+                        -5);
+        if(x>max)x=max;
+    }
+
+    (graph->data()->begin()+index)->key=x;
+    (graph->data()->begin()+index)->value=y;
+        main_graph_->replot();
+
+    //ui->customPlot->graph()->data()[index]->value=y;
+
+
 }

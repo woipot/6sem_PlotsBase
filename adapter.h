@@ -5,15 +5,18 @@
 #include "qplot/qcustomplot.h"
 #include "colorgetter.h"
 #include <QMenu>
+#include <QObject>
 
 
-class Adapter
+class Adapter: public QObject
 {
-     Model *model_;
+    Q_OBJECT
 
-     QCustomPlot *main_graph_;
+    Model *model_;
 
-     ColorGetter color_getter_;
+    QCustomPlot *main_graph_;
+
+    ColorGetter color_getter_;
 
 public:
     Adapter();
@@ -38,6 +41,12 @@ public:
     void add_point_to_selected(QPoint point);
 
     void clear_selected();
+
+
+public slots:
+    void mouseMove(QMouseEvent *mev);
+
+
 private:
     void set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots);
 

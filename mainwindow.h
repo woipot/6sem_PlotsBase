@@ -40,7 +40,9 @@ private slots:
     void colored(bool is_on);
 
     void clear_select();
-    void on_mouse_click(QMouseEvent *params);
+    void on_mouse_click();
+
+
 };
 
 #endif // MAINWINDOW_H
