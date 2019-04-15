@@ -44,8 +44,8 @@ void MainWindow::context_menu_request(QPoint pos)
   {
     if (ui->plotWidget->selectedGraphs().size() > 0)
     {
-        menu->addAction("Remove selected graph", this, SLOT(remove_selected_graph()));
         menu->addAction("Change line type of selected", this, SLOT(change_line_type()));
+        menu->addAction("Remove selected graph", this, SLOT(remove_selected_graph()));
     }
     if (ui->plotWidget->graphCount() > 0)
       menu->addAction("Remove all graphs", this, SLOT(remove_all_graphs()));
