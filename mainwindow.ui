@@ -41,7 +41,16 @@
     <addaction name="actionLoad"/>
     <addaction name="actionSave"/>
    </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionTo_center"/>
+    <addaction name="actionUnit_scale"/>
+    <addaction name="actionFit"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuActions"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -59,7 +68,31 @@
   </action>
   <action name="actionSave">
    <property name="text">
-    <string>Save</string>
+    <string>Save as png</string>
+   </property>
+  </action>
+  <action name="actionTo_center">
+   <property name="text">
+    <string>To center</string>
+   </property>
+   <property name="shortcut">
+    <string>O</string>
+   </property>
+  </action>
+  <action name="actionUnit_scale">
+   <property name="text">
+    <string>Unit scale</string>
+   </property>
+   <property name="shortcut">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionFit">
+   <property name="text">
+    <string>Fit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>

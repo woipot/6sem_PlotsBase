@@ -7,7 +7,7 @@ Model::Model()
 
 void Model::save(QCustomPlot *plot, QString path)
 {
-
+    plot->savePng(path);
 }
 
 QVector<QPair<QVector<double>, QVector<double> > > Model::load(QString path)

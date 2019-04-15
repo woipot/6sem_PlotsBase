@@ -17,6 +17,9 @@ void Adapter::set_main_qgraph(QCustomPlot *main_graph)
 
     main_graph_->xAxis->setLabel("x");
     main_graph_->yAxis->setLabel("y");
+    main_graph_->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+    main_graph_->legend->setVisible(true);
+    main_graph_->legend->setBrush(QBrush(QColor(255,255,255,230)));
 }
 
 void Adapter::on_load()
@@ -50,20 +53,13 @@ void Adapter::on_load()
 
 void Adapter::on_save()
 {
-    QString str = QFileDialog::getSaveFileName(nullptr, "Save to", "", "*.txt");
+    QString str = QFileDialog::getSaveFileName(nullptr, "Save to", "", "*.png");
 
     if(str != "")
     {
         try
         {
-            Model::save(main_graph_, str);
-        }
-        catch(ModelException m_ex)
-        {
-            QMessageBox msg;
-            msg.setInformativeText("#Error: cannot save to this file");
-            msg.setIcon(QMessageBox::Critical);
-            msg.exec();
+            Model::save(main_graph_ ,str);
         }
         catch(...)
         {
@@ -75,6 +71,33 @@ void Adapter::on_save()
     }
 }
 
+
+void Adapter::on_center()
+{
+    auto x_cuted = main_graph_->xAxis->range().size() / 2;
+    auto y_cuted = main_graph_->yAxis->range().size() / 2;
+
+    main_graph_->xAxis->setRange(-x_cuted, x_cuted);
+    main_graph_->yAxis->setRange(-y_cuted, y_cuted);
+    main_graph_->replot();
+}
+
+void Adapter::on_unit_fit()
+{
+    main_graph_->xAxis->setRange(-1, 1);
+    main_graph_->yAxis->setRange(-1, 1);
+    main_graph_->replot();
+}
+
+void Adapter::on_fit()
+{
+    main_graph_->yAxis->rescale(true);
+    main_graph_->xAxis->rescale(true);
+    main_graph_->replot();
+}
+
+
+
 void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
 {
     for (auto i = 0; i<plots->count(); i++) {
@@ -83,6 +106,18 @@ void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
         auto graph = main_graph_->addGraph();
         graph->setData(x_list, y_list);
         graph->setPen(QPen(color_getter_.get_nextColor()));
+        graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
         main_graph_->replot();
     }
+}
+
+QVector<QCPGraph*> Adapter::get_plots()
+{
+    QVector<QCPGraph*> res;
+
+    for (auto i = 0; i< main_graph_->graphCount(); i++) {
+        res.append(main_graph_->graph(i));
+    }
+
+    return res;
 }

@@ -25,6 +25,9 @@ private:
 private slots:
     void on_save();
     void on_load();
+    void on_center();
+    void on_unit_fit();
+    void on_fit();
 };
 
 #endif // MAINWINDOW_H
