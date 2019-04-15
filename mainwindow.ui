@@ -48,6 +48,7 @@
     <addaction name="action_to_center"/>
     <addaction name="action_unit_scale"/>
     <addaction name="action_fit"/>
+    <addaction name="actionswitch_axis_colored"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -72,6 +73,9 @@
    </property>
   </action>
   <action name="action_to_center">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>To center</string>
    </property>
@@ -93,6 +97,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionswitch_axis_colored">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>switch axis colored</string>
    </property>
   </action>
  </widget>

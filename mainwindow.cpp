@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->action_to_center, SIGNAL(triggered()), this, SLOT(on_center()));
     QObject::connect(ui->action_unit_scale, SIGNAL(triggered()), this, SLOT(on_unit_fit()));
     QObject::connect(ui->action_fit, SIGNAL(triggered()), this, SLOT(on_fit()));
+    QObject::connect(ui->actionswitch_axis_colored, SIGNAL(triggered(bool)), this, SLOT(colored(bool)));
+
 
     ui->plotWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->plotWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(context_menu_request(QPoint)));
@@ -74,6 +76,11 @@ void MainWindow::remove_selected_graph()
 void MainWindow::change_line_type()
 {
     adapter_->change_line_type();
+}
+
+void MainWindow::colored(bool is_on)
+{
+    adapter_->set_axis_colored(is_on);
 }
 
 void MainWindow::remove_all_graphs()

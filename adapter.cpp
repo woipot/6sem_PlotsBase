@@ -20,6 +20,8 @@ void Adapter::set_main_qgraph(QCustomPlot *main_graph)
     main_graph_->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
     main_graph_->legend->setVisible(true);
     main_graph_->legend->setBrush(QBrush(QColor(255,255,255,230)));
+    set_axis_colored(true);
+    main_graph_->replot();
 }
 
 void Adapter::on_load()
@@ -126,7 +128,20 @@ void Adapter::change_line_type()
 
 }
 
+void Adapter::set_axis_colored(bool is_colored)
+{
 
+    auto tick_pen = (is_colored) ? QPen(QColor("blue")) : QPen(QColor("black"));
+    auto subtick_pen = (is_colored) ? QPen(QColor("red")) : QPen(QColor("black"));
+
+    main_graph_->xAxis->setTickPen(tick_pen);
+    main_graph_->yAxis->setTickPen(tick_pen);
+
+    main_graph_->xAxis->setSubTickPen(subtick_pen);
+    main_graph_->yAxis->setSubTickPen(subtick_pen);
+
+    main_graph_->replot();
+}
 
 void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
 {

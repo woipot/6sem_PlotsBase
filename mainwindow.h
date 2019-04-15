@@ -36,6 +36,8 @@ private slots:
     void remove_selected_graph();
 
     void change_line_type();
+
+    void colored(bool is_on);
 };
 
 #endif // MAINWINDOW_H

@@ -33,6 +33,7 @@ public:
 
     void change_line_type();
 
+    void set_axis_colored(bool is_colored);
 private:
     void set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots);
 
