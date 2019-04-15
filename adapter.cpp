@@ -96,6 +96,36 @@ void Adapter::on_fit()
     main_graph_->replot();
 }
 
+void Adapter::remove_all_graphs()
+{
+    main_graph_->clearGraphs();
+    main_graph_->replot();
+}
+
+void Adapter::remove_selected_graph()
+{
+    if (main_graph_->selectedGraphs().size() > 0)
+    {
+      main_graph_->removeGraph(main_graph_->selectedGraphs().first());
+      main_graph_->replot();
+    }
+}
+
+void Adapter::change_line_type()
+{
+    if (main_graph_->selectedGraphs().size() > 0)
+    {
+      int style = main_graph_->selectedGraphs().first()->lineStyle();
+
+      (style == 5)? style = 0 : style++;
+
+      main_graph_->selectedGraphs().first()->setLineStyle((QCPGraph::LineStyle)style);
+
+      main_graph_->replot();
+    }
+
+}
+
 
 
 void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)

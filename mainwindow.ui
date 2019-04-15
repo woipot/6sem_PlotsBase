@@ -45,9 +45,9 @@
     <property name="title">
      <string>Actions</string>
     </property>
-    <addaction name="actionTo_center"/>
-    <addaction name="actionUnit_scale"/>
-    <addaction name="actionFit"/>
+    <addaction name="action_to_center"/>
+    <addaction name="action_unit_scale"/>
+    <addaction name="action_fit"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -71,7 +71,7 @@
     <string>Save as png</string>
    </property>
   </action>
-  <action name="actionTo_center">
+  <action name="action_to_center">
    <property name="text">
     <string>To center</string>
    </property>
@@ -79,7 +79,7 @@
     <string>O</string>
    </property>
   </action>
-  <action name="actionUnit_scale">
+  <action name="action_unit_scale">
    <property name="text">
     <string>Unit scale</string>
    </property>
@@ -87,7 +87,7 @@
     <string>C</string>
    </property>
   </action>
-  <action name="actionFit">
+  <action name="action_fit">
    <property name="text">
     <string>Fit</string>
    </property>

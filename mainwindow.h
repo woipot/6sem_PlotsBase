@@ -28,6 +28,14 @@ private slots:
     void on_center();
     void on_unit_fit();
     void on_fit();
+
+    void context_menu_request(QPoint pos);
+    void move_legend();
+
+    void remove_all_graphs();
+    void remove_selected_graph();
+
+    void change_line_type();
 };
 
 #endif // MAINWINDOW_H

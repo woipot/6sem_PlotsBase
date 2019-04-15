@@ -4,6 +4,7 @@
 #include "model.h"
 #include "qplot/qcustomplot.h"
 #include "colorgetter.h"
+#include <QMenu>
 
 
 class Adapter
@@ -26,6 +27,11 @@ public:
     void on_center();
     void on_unit_fit();
     void on_fit();
+
+    void remove_all_graphs();
+    void remove_selected_graph();
+
+    void change_line_type();
 
 private:
     void set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots);
