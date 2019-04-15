@@ -34,6 +34,10 @@ public:
     void change_line_type();
 
     void set_axis_colored(bool is_colored);
+
+    void add_point_to_selected(QPoint point);
+
+    void clear_selected();
 private:
     void set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots);
 

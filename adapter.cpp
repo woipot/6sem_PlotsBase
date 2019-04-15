@@ -143,6 +143,27 @@ void Adapter::set_axis_colored(bool is_colored)
     main_graph_->replot();
 }
 
+void Adapter::add_point_to_selected(QPoint point)
+{
+    if (main_graph_->selectedGraphs().size() > 0)
+    {
+        auto x = main_graph_->xAxis->pixelToCoord(point.x());
+        auto y = main_graph_->yAxis->pixelToCoord(point.y());
+        main_graph_->selectedGraphs().first()->addData(x, y);
+
+        main_graph_->replot();
+    }
+}
+
+void Adapter::clear_selected()
+{
+    if (main_graph_->selectedGraphs().size() > 0)
+    {
+        main_graph_->deselectAll();
+        main_graph_->replot();
+    }
+}
+
 void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
 {
     for (auto i = 0; i<plots->count(); i++) {

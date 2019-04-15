@@ -38,6 +38,9 @@ private slots:
     void change_line_type();
 
     void colored(bool is_on);
+
+    void clear_select();
+    void on_mouse_click(QMouseEvent *params);
 };
 
 #endif // MAINWINDOW_H

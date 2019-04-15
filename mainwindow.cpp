@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->action_fit, SIGNAL(triggered()), this, SLOT(on_fit()));
     QObject::connect(ui->actionswitch_axis_colored, SIGNAL(triggered(bool)), this, SLOT(colored(bool)));
 
+     QObject::connect(ui->plotWidget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(on_mouse_click(QMouseEvent*)));
 
     ui->plotWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->plotWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(context_menu_request(QPoint)));
@@ -45,6 +46,7 @@ void MainWindow::context_menu_request(QPoint pos)
     if (ui->plotWidget->selectedGraphs().size() > 0)
     {
         menu->addAction("Change line type of selected", this, SLOT(change_line_type()));
+        menu->addAction("Clear select", this, SLOT(clear_select()));
         menu->addAction("Remove selected graph", this, SLOT(remove_selected_graph()));
     }
     if (ui->plotWidget->graphCount() > 0)
@@ -81,6 +83,17 @@ void MainWindow::change_line_type()
 void MainWindow::colored(bool is_on)
 {
     adapter_->set_axis_colored(is_on);
+}
+
+void MainWindow::clear_select()
+{
+    adapter_->clear_selected();
+}
+
+void MainWindow::on_mouse_click(QMouseEvent *params)
+{
+    if(params->button() == Qt::MouseButton::LeftButton)
+        adapter_->add_point_to_selected(params->pos());
 }
 
 void MainWindow::remove_all_graphs()
