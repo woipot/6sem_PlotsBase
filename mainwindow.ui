@@ -6,31 +6,30 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>902</width>
-    <height>446</height>
+    <width>867</width>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QCustomPlot" name="plotWidget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>561</width>
-      <height>351</height>
-     </rect>
-    </property>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QCustomPlot" name="plotWidget" native="true"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>902</width>
+     <width>867</width>
      <height>26</height>
     </rect>
    </property>
@@ -49,6 +48,7 @@
     <addaction name="action_unit_scale"/>
     <addaction name="action_fit"/>
     <addaction name="actionswitch_axis_colored"/>
+    <addaction name="actionGraph_drag"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -108,6 +108,17 @@
    </property>
    <property name="text">
     <string>switch axis colored</string>
+   </property>
+  </action>
+  <action name="actionGraph_drag">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Graph drag</string>
    </property>
   </action>
  </widget>

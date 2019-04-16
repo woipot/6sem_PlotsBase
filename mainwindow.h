@@ -42,6 +42,7 @@ private slots:
     void clear_select();
     void on_mouse_click();
 
+    void switch_move(bool is_on);
 
 };
 

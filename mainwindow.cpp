@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     adapter_ = new Adapter();
 
     adapter_->set_main_qgraph(ui->plotWidget);
@@ -15,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->action_to_center, SIGNAL(triggered()), this, SLOT(on_center()));
     QObject::connect(ui->action_unit_scale, SIGNAL(triggered()), this, SLOT(on_unit_fit()));
     QObject::connect(ui->action_fit, SIGNAL(triggered()), this, SLOT(on_fit()));
+
     QObject::connect(ui->actionswitch_axis_colored, SIGNAL(triggered(bool)), this, SLOT(colored(bool)));
+    QObject::connect(ui->actionGraph_drag, SIGNAL(triggered(bool)), this, SLOT(switch_move(bool)));
 
     //QObject::connect(ui->plotWidget, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(on_mouse_click(QMouseEvent*)));
 
@@ -49,7 +52,7 @@ void MainWindow::context_menu_request(QPoint pos)
         QVariant v = qVariantFromValue(pos);
         action->setData(v);
 
-s        menu->addAction("Change line type of selected", this, SLOT(change_line_type()));
+        menu->addAction("Change line type of selected", this, SLOT(change_line_type()));
         menu->addAction("Clear select", this, SLOT(clear_select()));
         menu->addAction("Remove selected graph", this, SLOT(remove_selected_graph()));
     }
@@ -100,6 +103,11 @@ void MainWindow::on_mouse_click()
     QVariant v = act->data();
     auto pos = v.value<QPoint>();
     adapter_->add_point_to_selected(pos);
+}
+
+void MainWindow::switch_move(bool is_on)
+{
+    adapter_->switch_move(is_on);
 }
 
 void MainWindow::remove_all_graphs()

@@ -18,6 +18,10 @@ class Adapter: public QObject
 
     ColorGetter color_getter_;
 
+    double x_pred, y_pred;
+
+    bool drag_graph_;
+
 public:
     Adapter();
     ~Adapter();
@@ -42,15 +46,25 @@ public:
 
     void clear_selected();
 
+    void switch_move(bool is_on);
 
-public slots:
-    void mouseMove(QMouseEvent *mev);
 
+
+
+private slots:
+
+  void mouseMove(QMouseEvent *mev);
+  void mousePress(QMouseEvent *mev);
 
 private:
     void set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots);
 
     QVector<QCPGraph*> get_plots();
+
+    void point_move(QMouseEvent* mev);
+
+    void graph_move(QMouseEvent* mev);
 };
+
 
 #endif // ADAPTER_H

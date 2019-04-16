@@ -4,6 +4,9 @@
 Adapter::Adapter()
 {
     model_ = new Model();
+    x_pred=0;
+    y_pred=0;
+    drag_graph_ = true;
 }
 
 Adapter::~Adapter()
@@ -24,6 +27,9 @@ void Adapter::set_main_qgraph(QCustomPlot *main_graph)
     main_graph_->setSelectionTolerance(10);
 
     connect(main_graph_, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseMove(QMouseEvent*)));
+
+    connect(main_graph_, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress(QMouseEvent*)));
+
     main_graph_->replot();
 }
 
@@ -167,6 +173,18 @@ void Adapter::clear_selected()
     }
 }
 
+void Adapter::switch_move(bool is_on)
+{
+    drag_graph_ = is_on;
+
+    auto plots = get_plots();
+
+    for (auto i = 0; i < plots.count(); i++) {
+        plots[i]->setSelectable(is_on? QCP::stWhole : QCP::stSingleData);
+
+    }
+}
+
 void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
 {
     for (auto i = 0; i<plots->count(); i++) {
@@ -177,7 +195,8 @@ void Adapter::set_plots(QVector<QPair<QVector<double>, QVector<double>>> *plots)
         graph->setPen(QPen(color_getter_.get_nextColor()));
         graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 4));
 
-        graph->setSelectable(QCP::stSingleData);
+        graph->setSelectable(drag_graph_? QCP::stWhole : QCP::stSingleData);
+
 
         main_graph_->replot();
     }
@@ -194,12 +213,14 @@ QVector<QCPGraph*> Adapter::get_plots()
     return res;
 }
 
-
-void Adapter::mouseMove(QMouseEvent* mev)
+void Adapter::mousePress(QMouseEvent* mev)
 {
-    if(! QApplication::mouseButtons()) return;
-    if(main_graph_->selectedGraphs().size() != 1) return;
+    x_pred=main_graph_->xAxis->pixelToCoord(mev->pos().x());
+    y_pred=main_graph_->yAxis->pixelToCoord(mev->pos().y());
+}
 
+void Adapter::point_move(QMouseEvent *mev)
+{
     double  x = main_graph_->xAxis->pixelToCoord(mev->pos().x()),
             y = main_graph_->yAxis->pixelToCoord(mev->pos().y());
 
@@ -234,5 +255,36 @@ void Adapter::mouseMove(QMouseEvent* mev)
 
     //ui->customPlot->graph()->data()[index]->value=y;
 
+}
+
+void Adapter::graph_move(QMouseEvent* mev)
+{
+    double dx, dy;
+    auto graph = main_graph_->selectedGraphs().first();
+    dx= - x_pred;
+    x_pred=main_graph_->xAxis->pixelToCoord(mev->pos().x());
+    dx+=x_pred;
+
+    dy= - y_pred;
+    y_pred=main_graph_->yAxis->pixelToCoord(mev->pos().y());
+    dy+=y_pred;
+
+
+    QCPGraphDataContainer::iterator it1=graph->data()->begin(),
+            it2=graph->data()->end();
+    for(;it1!=it2; ++it1){
+        it1->key=it1->key+dx;
+        it1->value=it1->value+dy;
+    }
+    main_graph_->replot();
+}
+
+
+void Adapter::mouseMove(QMouseEvent* mev)
+{
+    if(! QApplication::mouseButtons()) return;
+    if(main_graph_->selectedGraphs().size() != 1) return;
+
+    drag_graph_ ? graph_move(mev) : point_move(mev);
 
 }
